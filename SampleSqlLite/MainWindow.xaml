@@ -1,0 +1,49 @@
+﻿<Window x:Class="SampleSqlLite.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SampleSqlLite"
+        xmlns:vm="clr-namespace:SampleSqlLite.ViewModels"
+        xmlns:dp="clr-namespace:SampleSqlLite.DataProviders"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <ObjectDataProvider x:Key="GetData" ObjectType="{x:Type dp:BinaryDataProvider}" MethodName="GetEnumerator"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+            <Button Content="DB Create" Width="70" Height="20" Margin="5" Command="{Binding DbCreateCommand}"/>
+            <Button Content="Test Data Create" Width="100" Height="20" Margin="5" Command="{Binding CreateTestDataCommand}"/>
+            <Button Content="Get Table Count" Width="100" Height="20" Margin="5" Command="{Binding GetCountCommand}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+            <TextBlock Text="{Binding Count}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3">
+            <TextBlock Text="{Binding Message}" Foreground="Red"/>
+        </StackPanel>
+        <DataGrid 
+            Grid.Row="2" 
+            Margin="10" 
+            AutoGenerateColumns="True" 
+            ItemsSource="{Binding BinaryDataCollection}" 
+            IsSynchronizedWithCurrentItem="True"
+            ScrollViewer.CanContentScroll="True"
+            ScrollViewer.IsDeferredScrollingEnabled="True"
+            VirtualizingPanel.IsVirtualizing="True"
+            VirtualizingPanel.VirtualizationMode="Standard">
+            
+        </DataGrid>
+    </Grid>
+</Window>
